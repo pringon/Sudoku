@@ -11,7 +11,11 @@ private:
   Group rows[9];
   Group columns[9];
   Group boxes[9];
+  bool redRows[9];
+  bool redColumns[9];
+  bool redBoxes[9];
   bool checkWin();
+  void repaint();
 
 public:
   Board(QWidget* parent = 0);

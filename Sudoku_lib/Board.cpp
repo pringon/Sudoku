@@ -20,6 +20,10 @@ Board::Board(QWidget* parent) : QGridLayout(parent) {
       this->boxes[boxNumber].addCell(label);
       QObject::connect(label, &Cell::valueChanged,
                        this, &Board::checkCell);
+
+     this->redRows[i] = false;
+     this->redColumns[i] = false;
+     this->redBoxes[i] = false;
     }
   }
 
@@ -28,9 +32,12 @@ Board::Board(QWidget* parent) : QGridLayout(parent) {
 
 bool Board::checkWin() {
   for(int i = 0; i < 9; i++) {
-    if(this->rows[i].checkSameValues() ||
+    if((this->rows[i].checkSameValues() ||
         this->columns[i].checkSameValues() ||
-        this->boxes[i].checkSameValues()) {
+        this->boxes[i].checkSameValues()) ||
+        this->rows[i].checkZeroes() ||
+        this->columns[i].checkZeroes() ||
+        this->boxes[i].checkZeroes()) {
       return false;
     }
   }
@@ -42,27 +49,47 @@ void Board::checkCell(int row, int column) {
 
   if(rows[row].checkSameValues()) {
     notDuplicate = false;
-    rows[row].paint("red");
+    this->redRows[row] = true;
   } else {
-    rows[row].paint("black");
+    this->redRows[row] = false;
   }
 
   if(columns[column].checkSameValues()) {
     notDuplicate = false;
-    columns[column].paint("red");
+    this->redColumns[column] = true;
   } else {
-    columns[column].paint("black");
+    this->redColumns[column] = false;
   }
 
   int boxNumber = (row/3)*3 + (column/3);
   if(boxes[boxNumber].checkSameValues()) {
     notDuplicate = false;
-    boxes[boxNumber].paint("red");
+    this->redBoxes[boxNumber] = true;
   } else {
-    boxes[boxNumber].paint("black");
+    this->redBoxes[boxNumber] = false;
   }
+
+  rows[row].paint("black");
+  columns[column].paint("black");
+  boxes[boxNumber].paint("black");
+
+  this->repaint();
 
   if(notDuplicate && this->checkWin()) {
     emit sudokuSolved();
+  }
+}
+
+void Board::repaint() {
+  for(int i = 0; i < 9; i++) {
+    if(this->redRows[i]) {
+      this->rows[i].paint("red");
+    }
+    if(this->redColumns[i]) {
+      this->columns[i].paint("red");
+    }
+    if(this->redBoxes[i]) {
+      this->boxes[i].paint("red");
+    }
   }
 }

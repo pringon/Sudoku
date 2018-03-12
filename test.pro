@@ -18,3 +18,4 @@ SOURCES += test.cpp \
            Sudoku_lib/Sudoku.cpp
 
 QT += widgets
+CONFIG += c++11

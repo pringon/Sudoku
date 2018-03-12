@@ -9,10 +9,22 @@ bool Group::checkSameValues() {
 
   std::vector<Cell*>::iterator it = this->members.begin();
   while(it != this->members.end()) {
-    if(seen[(*it)->getValue()]) {
+    if(seen[(*it)->getValue()] && (*it)->getValue() != 0) {
       return true;
     }
     seen[(*it)->getValue()] = true;
+    it++;
+  }
+
+  return false;
+}
+
+bool Group::checkZeroes() {
+  std::vector<Cell*>::iterator it = this->members.begin();
+  while(it != this->members.end()) {
+    if(!(*it)->getValue()) {
+      return true;
+    }
     it++;
   }
 

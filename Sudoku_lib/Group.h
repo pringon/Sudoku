@@ -14,6 +14,7 @@ public:
   Group() {}
   void addCell(Cell *newCell);
   bool checkSameValues();
+  bool checkZeroes();
   void paint(std::string color);
 };
 

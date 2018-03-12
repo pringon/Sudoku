@@ -1,5 +1,6 @@
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QIcon>
 #include "Sudoku_lib/Sudoku.h"
 
 int main(int argc, char *argv[]) {
@@ -11,6 +12,7 @@ int main(int argc, char *argv[]) {
 
   window.resize(screen.width()*0.5, screen.height()*0.5);
   window.setWindowTitle("Sudoku");
+  window.setWindowIcon(QIcon("SudokuIcon.png"));
   window.show();
 
   return app.exec();
