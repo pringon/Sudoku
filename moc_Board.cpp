@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Board_t {
-    QByteArrayData data[6];
-    char stringdata0[41];
+    QByteArrayData data[9];
+    char stringdata0[77];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,12 +34,16 @@ static const qt_meta_stringdata_Board_t qt_meta_stringdata_Board = {
 QT_MOC_LITERAL(0, 0, 5), // "Board"
 QT_MOC_LITERAL(1, 6, 12), // "sudokuSolved"
 QT_MOC_LITERAL(2, 19, 0), // ""
-QT_MOC_LITERAL(3, 20, 9), // "checkCell"
-QT_MOC_LITERAL(4, 30, 3), // "row"
-QT_MOC_LITERAL(5, 34, 6) // "column"
+QT_MOC_LITERAL(3, 20, 12), // "redrawPuzzle"
+QT_MOC_LITERAL(4, 33, 11), // "std::string"
+QT_MOC_LITERAL(5, 45, 10), // "puzzlePath"
+QT_MOC_LITERAL(6, 56, 9), // "checkCell"
+QT_MOC_LITERAL(7, 66, 3), // "row"
+QT_MOC_LITERAL(8, 70, 6) // "column"
 
     },
-    "Board\0sudokuSolved\0\0checkCell\0row\0"
+    "Board\0sudokuSolved\0\0redrawPuzzle\0"
+    "std::string\0puzzlePath\0checkCell\0row\0"
     "column"
 };
 #undef QT_MOC_LITERAL
@@ -50,7 +54,7 @@ static const uint qt_meta_data_Board[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -58,16 +62,18 @@ static const uint qt_meta_data_Board[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   24,    2, 0x06 /* Public */,
+       1,    0,   29,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       3,    2,   25,    2, 0x09 /* Protected */,
+       3,    1,   30,    2, 0x09 /* Protected */,
+       6,    2,   33,    2, 0x09 /* Protected */,
 
  // signals: parameters
     QMetaType::Void,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::Int, QMetaType::Int,    4,    5,
+    QMetaType::Void, 0x80000000 | 4,    5,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int,    7,    8,
 
        0        // eod
 };
@@ -79,7 +85,8 @@ void Board::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->sudokuSolved(); break;
-        case 1: _t->checkCell((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 1: _t->redrawPuzzle((*reinterpret_cast< std::string(*)>(_a[1]))); break;
+        case 2: _t->checkCell((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -120,13 +127,13 @@ int Board::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 3;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 2)
+        if (_id < 3)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 2;
+        _id -= 3;
     }
     return _id;
 }

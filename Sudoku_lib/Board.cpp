@@ -2,8 +2,8 @@
 #include "Cell.h"
 #include <fstream>
 
-Board::Board(QWidget* parent) : QGridLayout(parent) {
-  std::ifstream in("./Sudoku_lib/game.txt");
+Board::Board(QWidget* parent, std::string puzzlePath) : QGridLayout(parent) {
+  std::ifstream in(puzzlePath);
   int cellValue,
       boxNumber;
 
@@ -44,6 +44,55 @@ bool Board::checkWin() {
   return true;
 }
 
+void Board::repaint() {
+  for(int i = 0; i < 9; i++) {
+    if(this->rows[i].isRed()) {
+      this->rows[i].paint("red");
+    }
+    if(this->columns[i].isRed()) {
+      this->columns[i].paint("red");
+    }
+    if(this->boxes[i].isRed()) {
+      this->boxes[i].paint("red");
+    }
+  }
+}
+
+void Board::redrawPuzzle(std::string puzzlePath) {
+
+  QLayoutItem *item;
+  while((item = this->takeAt(0)) != NULL) {
+    delete item->widget();
+    delete item;
+  }
+
+  std::ifstream in(puzzlePath);
+  int cellValue,
+      boxNumber;
+
+  for(int i = 0; i < 9; i++) {
+    for(int j = 0; j < 9; j++) {
+
+      boxNumber = (i/3)*3 + (j/3);
+
+      in>>cellValue;
+      Cell *label = new Cell(this->parentWidget(), i, j, cellValue);
+      this->addWidget(label, i, j);
+      this->rows[i].addCell(label);
+      this->columns[j].addCell(label);
+      this->boxes[boxNumber].addCell(label);
+      QObject::connect(label, &Cell::valueChanged,
+                       this, &Board::checkCell);
+
+     this->rows[i].setColor(false);
+     this->columns[i].setColor(false);
+     this->boxes[i].setColor(false);
+    }
+  }
+
+  in.close();
+}
+
 void Board::checkCell(int row, int column) {
   bool notDuplicate = true;
 
@@ -77,19 +126,5 @@ void Board::checkCell(int row, int column) {
 
   if(notDuplicate && this->checkWin()) {
     emit sudokuSolved();
-  }
-}
-
-void Board::repaint() {
-  for(int i = 0; i < 9; i++) {
-    if(this->rows[i].isRed()) {
-      this->rows[i].paint("red");
-    }
-    if(this->columns[i].isRed()) {
-      this->columns[i].paint("red");
-    }
-    if(this->boxes[i].isRed()) {
-      this->boxes[i].paint("red");
-    }
   }
 }
