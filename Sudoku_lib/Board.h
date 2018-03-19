@@ -23,6 +23,7 @@ public:
 
 protected slots:
   virtual void redrawPuzzle(std::string puzzlePath);
+  virtual void savePuzzle(std::string puzzlePath);
   virtual void checkCell(int row, int column);
 
 signals:

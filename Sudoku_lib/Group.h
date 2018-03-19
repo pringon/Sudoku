@@ -4,7 +4,6 @@
 #include "Cell.h"
 #include <vector>
 #include <string>
-#include <QString>
 
 class Group {
 private:
@@ -14,6 +13,7 @@ private:
 public:
   Group() {}
   void addCell(Cell *newCell);
+  std::vector<Cell*>::iterator iterateCells(std::string pos = "start");
   bool checkSameValues();
   bool checkZeroes();
   void paint(std::string color);

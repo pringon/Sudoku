@@ -17,10 +17,12 @@ Sudoku::Sudoku(QWidget *parent)
   QSizePolicy sudokuPuzzleGroupHeight(QSizePolicy::Preferred, QSizePolicy::Preferred);
   sudokuPuzzleGroupHeight.setVerticalStretch(9);
   sudokuPuzzleGroup->setSizePolicy(sudokuPuzzleGroupHeight);
-  QObject::connect(sudokuGrid, &Board::sudokuSolved,
-                   this, &Sudoku::closeGame);
   QObject::connect(this, &Sudoku::puzzleSelected,
                    sudokuGrid, &Board::redrawPuzzle);
+  QObject::connect(this, &Sudoku::puzzleSaved,
+                   sudokuGrid, &Board::savePuzzle);
+  QObject::connect(sudokuGrid, &Board::sudokuSolved,
+                   this, &Sudoku::closeGame);
   sudokuPuzzleGroup->setLayout(sudokuGrid);
 
   buttonsGroup = new QGroupBox();
@@ -33,6 +35,10 @@ Sudoku::Sudoku(QWidget *parent)
   horizontalButtonsBox->addWidget(selectGame);
   QObject::connect(selectGame, &QPushButton::released,
                    this,       &Sudoku::selectGame);
+  QPushButton *saveGame = new QPushButton(tr("Save puzzle!"), this);
+  horizontalButtonsBox->addWidget(saveGame);
+  QObject::connect(saveGame, &QPushButton::released,
+                   this,     &Sudoku::saveGame);
   buttonsGroup->setLayout(horizontalButtonsBox);
 
   windowLayout->addWidget(sudokuPuzzleGroup);
@@ -46,6 +52,15 @@ void Sudoku::selectGame() {
   puzzlePath = QFileDialog::getOpenFileName(this, tr("Pick a puzzle!")).toUtf8().constData();
   if(!puzzlePath.empty()) {
     emit puzzleSelected(puzzlePath);
+  }
+}
+
+void Sudoku::saveGame() {
+  std::string puzzlePath;
+  puzzlePath = QFileDialog::getSaveFileName(this, tr("Pick a location to save puzzle!"))
+                                    .toUtf8().constData();
+  if(!puzzlePath.empty()) {
+    emit puzzleSaved(puzzlePath);
   }
 }
 

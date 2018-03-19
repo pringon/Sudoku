@@ -4,6 +4,14 @@ void Group::addCell(Cell *newCell) {
   members.push_back(newCell);
 }
 
+std::vector<Cell*>::iterator Group::iterateCells(std::string pos) {
+  if(pos == "start") {
+    return this->members.begin();
+  } else {
+    return this->members.end();
+  }
+}
+
 bool Group::checkSameValues() {
   bool seen[10] = {};
 

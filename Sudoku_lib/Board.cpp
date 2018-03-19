@@ -93,6 +93,22 @@ void Board::redrawPuzzle(std::string puzzlePath) {
   in.close();
 }
 
+void Board::savePuzzle(std::string puzzlePath) {
+  std::ofstream out(puzzlePath);
+
+  for(int i = 0; i < 9; i++) {
+    std::vector<Cell*>::iterator it = this->rows[i].iterateCells("start");
+    std::vector<Cell*>::iterator end = this->rows[i].iterateCells("end");
+    while(it != end) {
+      out<<(*it)->getValue()<<' ';
+      it++;
+    }
+    out<<'\n';
+  }
+
+  out.close();
+}
+
 void Board::checkCell(int row, int column) {
   bool notDuplicate = true;
 

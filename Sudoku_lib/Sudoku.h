@@ -16,10 +16,12 @@ public:
 
 protected slots:
   virtual void selectGame();
+  virtual void saveGame();
   virtual void closeGame();
 
 signals:
   void puzzleSelected(std::string puzzlePath);
+  void puzzleSaved(std::string puzzlePath);
 };
 
 #endif
