@@ -39,3 +39,11 @@ void Group::paint(std::string color) {
     it++;
   }
 }
+
+bool Group::isRed() {
+  return this->red;
+}
+
+void Group::setColor(bool color) {
+  this->red = color;
+}

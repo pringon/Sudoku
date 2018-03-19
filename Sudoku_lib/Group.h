@@ -9,6 +9,7 @@
 class Group {
 private:
   std::vector<Cell*> members;
+  bool red;
 
 public:
   Group() {}
@@ -16,6 +17,8 @@ public:
   bool checkSameValues();
   bool checkZeroes();
   void paint(std::string color);
+  bool isRed();
+  void setColor(bool color);
 };
 
 #endif

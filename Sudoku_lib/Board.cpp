@@ -21,9 +21,9 @@ Board::Board(QWidget* parent) : QGridLayout(parent) {
       QObject::connect(label, &Cell::valueChanged,
                        this, &Board::checkCell);
 
-     this->redRows[i] = false;
-     this->redColumns[i] = false;
-     this->redBoxes[i] = false;
+     this->rows[i].setColor(false);
+     this->columns[i].setColor(false);
+     this->boxes[i].setColor(false);
     }
   }
 
@@ -49,24 +49,24 @@ void Board::checkCell(int row, int column) {
 
   if(rows[row].checkSameValues()) {
     notDuplicate = false;
-    this->redRows[row] = true;
+    this->rows[row].setColor(true);
   } else {
-    this->redRows[row] = false;
+    this->rows[row].setColor(false);
   }
 
   if(columns[column].checkSameValues()) {
     notDuplicate = false;
-    this->redColumns[column] = true;
+    this->columns[column].setColor(true);
   } else {
-    this->redColumns[column] = false;
+    this->columns[column].setColor(false);
   }
 
   int boxNumber = (row/3)*3 + (column/3);
   if(boxes[boxNumber].checkSameValues()) {
     notDuplicate = false;
-    this->redBoxes[boxNumber] = true;
+    this->boxes[boxNumber].setColor(true);
   } else {
-    this->redBoxes[boxNumber] = false;
+    this->boxes[boxNumber].setColor(false);
   }
 
   rows[row].paint("black");
@@ -82,13 +82,13 @@ void Board::checkCell(int row, int column) {
 
 void Board::repaint() {
   for(int i = 0; i < 9; i++) {
-    if(this->redRows[i]) {
+    if(this->rows[i].isRed()) {
       this->rows[i].paint("red");
     }
-    if(this->redColumns[i]) {
+    if(this->columns[i].isRed()) {
       this->columns[i].paint("red");
     }
-    if(this->redBoxes[i]) {
+    if(this->boxes[i].isRed()) {
       this->boxes[i].paint("red");
     }
   }
