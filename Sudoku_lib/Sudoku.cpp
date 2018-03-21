@@ -18,9 +18,11 @@ Sudoku::Sudoku(QWidget *parent)
   sudokuPuzzleGroupHeight.setVerticalStretch(9);
   sudokuPuzzleGroup->setSizePolicy(sudokuPuzzleGroupHeight);
   QObject::connect(this, &Sudoku::puzzleSelected,
-                   sudokuGrid, &Board::redrawPuzzle);
+                   sudokuGrid, &Board::openPuzzle);
   QObject::connect(this, &Sudoku::puzzleSaved,
                    sudokuGrid, &Board::savePuzzle);
+  QObject::connect(this,       &Sudoku::solveRequest,
+                   sudokuGrid, &Board::solvePuzzle);
   QObject::connect(sudokuGrid, &Board::sudokuSolved,
                    this, &Sudoku::closeGame);
   sudokuPuzzleGroup->setLayout(sudokuGrid);
@@ -39,6 +41,10 @@ Sudoku::Sudoku(QWidget *parent)
   horizontalButtonsBox->addWidget(saveGame);
   QObject::connect(saveGame, &QPushButton::released,
                    this,     &Sudoku::saveGame);
+  QPushButton *solveGame = new QPushButton(tr("Solve puzzle!"), this);
+  horizontalButtonsBox->addWidget(solveGame);
+  QObject::connect(solveGame, &QPushButton::released,
+                   this,      &Sudoku::solveGame);
   buttonsGroup->setLayout(horizontalButtonsBox);
 
   windowLayout->addWidget(sudokuPuzzleGroup);
@@ -62,6 +68,10 @@ void Sudoku::saveGame() {
   if(!puzzlePath.empty()) {
     emit puzzleSaved(puzzlePath);
   }
+}
+
+void Sudoku::solveGame() {
+  emit solveRequest();
 }
 
 void Sudoku::closeGame() {

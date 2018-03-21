@@ -11,10 +11,15 @@ private:
   int column;
   int value;
   bool clickable;
+  bool backtracked;
 
 public:
   Cell(QWidget* parent, int row, int column, int value);
   int getValue();
+  void incrementValue();
+  bool wasBacktracked();
+  void toggleBacktracked();
+  bool isClickable();
 
 protected slots:
   virtual void resizeEvent(QResizeEvent *event);

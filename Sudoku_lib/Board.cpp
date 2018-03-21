@@ -1,5 +1,6 @@
 #include "Board.h"
 #include "Cell.h"
+#include <iostream>
 #include <fstream>
 
 Board::Board(QWidget* parent, std::string puzzlePath) : QGridLayout(parent) {
@@ -44,6 +45,35 @@ bool Board::checkWin() {
   return true;
 }
 
+bool Board::backtrackPuzzle() {
+
+  for(int i = 0; i < 9; i++) {
+    std::vector<Cell*>::iterator it = rows[i].iterateCells(0);
+    std::vector<Cell*>::iterator end = rows[i].iterateCells(-1);
+
+    while(it != end) {
+
+      if((*it)->isClickable() && !(*it)->wasBacktracked()) {
+        (*it)->toggleBacktracked();
+        for(int j = 0; j < 9; j++) {
+          if(this->backtrackPuzzle()) {
+            return true;
+          }
+          (*it)->incrementValue();
+        }
+        (*it)->toggleBacktracked();
+        return false;
+      }
+      it++;
+    }
+  }
+
+  if(this->checkWin()) {
+    return true;
+  }
+  return false;
+}
+
 void Board::repaint() {
   for(int i = 0; i < 9; i++) {
     if(this->rows[i].isRed()) {
@@ -58,7 +88,7 @@ void Board::repaint() {
   }
 }
 
-void Board::redrawPuzzle(std::string puzzlePath) {
+void Board::openPuzzle(std::string puzzlePath) {
 
   QLayoutItem *item;
   while((item = this->takeAt(0)) != NULL) {
@@ -97,8 +127,8 @@ void Board::savePuzzle(std::string puzzlePath) {
   std::ofstream out(puzzlePath);
 
   for(int i = 0; i < 9; i++) {
-    std::vector<Cell*>::iterator it = this->rows[i].iterateCells("start");
-    std::vector<Cell*>::iterator end = this->rows[i].iterateCells("end");
+    std::vector<Cell*>::iterator it = this->rows[i].iterateCells(0);
+    std::vector<Cell*>::iterator end = this->rows[i].iterateCells(-1);
     while(it != end) {
       out<<(*it)->getValue()<<' ';
       it++;
@@ -107,6 +137,14 @@ void Board::savePuzzle(std::string puzzlePath) {
   }
 
   out.close();
+}
+
+void Board::solvePuzzle() {
+  if(this->backtrackPuzzle()) {
+    std::cout<<"Solved!";
+  } else {
+    std::cout<<"Can't be solved";
+  }
 }
 
 void Board::checkCell(int row, int column) {

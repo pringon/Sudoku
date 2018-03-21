@@ -15,10 +15,31 @@ Cell::Cell(QWidget *parent, int row, int column, int value) : QLabel(parent) {
   } else {
     this->clickable = false;
   }
+  this->backtracked = false;
 }
 
 int Cell::getValue() {
   return this->value;
+}
+
+void Cell::incrementValue() {
+  if(this->clickable) {
+    this->value = (this->value == 9) ? 0 : this->value + 1;
+    this->setText(QString::number(this->value));
+    emit valueChanged(this->row, this->column);
+  }
+}
+
+bool Cell::wasBacktracked() {
+  return this->backtracked;
+}
+
+void Cell::toggleBacktracked() {
+  this->backtracked = !this->backtracked;
+}
+
+bool Cell::isClickable() {
+  return this->clickable;
 }
 
 void Cell::resizeEvent(QResizeEvent *event) {

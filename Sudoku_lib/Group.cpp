@@ -4,10 +4,10 @@ void Group::addCell(Cell *newCell) {
   members.push_back(newCell);
 }
 
-std::vector<Cell*>::iterator Group::iterateCells(std::string pos) {
-  if(pos == "start") {
+std::vector<Cell*>::iterator Group::iterateCells(int pos) {
+  if(pos == 0) {
     return this->members.begin();
-  } else {
+  } else if(pos == -1) {
     return this->members.end();
   }
 }

@@ -16,14 +16,16 @@ private:
   Group columns[9];
   Group boxes[9];
   bool checkWin();
+  bool backtrackPuzzle();
   void repaint();
 
 public:
-  Board(QWidget* parent = 0, std::string puzzlePath = "./Sudoku_lib/game.txt");
+  Board(QWidget* parent = 0, std::string puzzlePath = "./saved_puzzles/test.txt");
 
 protected slots:
-  virtual void redrawPuzzle(std::string puzzlePath);
+  virtual void openPuzzle(std::string puzzlePath);
   virtual void savePuzzle(std::string puzzlePath);
+  virtual void solvePuzzle();
   virtual void checkCell(int row, int column);
 
 signals:

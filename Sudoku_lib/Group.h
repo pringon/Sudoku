@@ -13,7 +13,7 @@ private:
 public:
   Group() {}
   void addCell(Cell *newCell);
-  std::vector<Cell*>::iterator iterateCells(std::string pos = "start");
+  std::vector<Cell*>::iterator iterateCells(int pos = 0);
   bool checkSameValues();
   bool checkZeroes();
   void paint(std::string color);
