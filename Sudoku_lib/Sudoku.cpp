@@ -12,10 +12,29 @@ Sudoku::Sudoku(QWidget *parent)
 
   QVBoxLayout *windowLayout = new QVBoxLayout(this);
 
+  hours = 0;
+  minutes = 0;
+  seconds = 0;
+  timerGroup = new QGroupBox();
+  QHBoxLayout *timerBox = new QHBoxLayout(this);
+  QSizePolicy timerGroupHeight(QSizePolicy::Preferred, QSizePolicy::Preferred);
+  timerGroupHeight.setVerticalStretch(1);
+  timerGroup->setSizePolicy(timerGroupHeight);
+  timerLabel = new QLabel(QString("%1:%2:%3").arg(QString::number(hours))
+                                                .arg(QString::number(minutes))
+                                                .arg(QString::number(seconds)));
+  timerLabel->setAlignment(Qt::AlignCenter);
+  QTimer *timer = new QTimer(this);
+  QObject::connect(timer, SIGNAL(timeout()),
+                   this,  SLOT(timerUpdate()));
+  timer->start(1000);
+  timerBox->addWidget(timerLabel);
+  timerGroup->setLayout(timerBox);
+
   sudokuPuzzleGroup = new QGroupBox();
   Board *sudokuGrid = new Board(this);
   QSizePolicy sudokuPuzzleGroupHeight(QSizePolicy::Preferred, QSizePolicy::Preferred);
-  sudokuPuzzleGroupHeight.setVerticalStretch(9);
+  sudokuPuzzleGroupHeight.setVerticalStretch(8);
   sudokuPuzzleGroup->setSizePolicy(sudokuPuzzleGroupHeight);
   QObject::connect(this, &Sudoku::puzzleSelected,
                    sudokuGrid, &Board::openPuzzle);
@@ -47,10 +66,28 @@ Sudoku::Sudoku(QWidget *parent)
                    this,      &Sudoku::solveGame);
   buttonsGroup->setLayout(horizontalButtonsBox);
 
+  windowLayout->addWidget(timerGroup);
   windowLayout->addWidget(sudokuPuzzleGroup);
   windowLayout->addWidget(buttonsGroup);
 
   this->setLayout(windowLayout);
+}
+
+void Sudoku::timerUpdate() {
+  seconds++;
+  if(seconds == 60) {
+    seconds = 0;
+    minutes++;
+  }
+  if(minutes == 60) {
+    minutes = 0;
+    hours++;
+  }
+
+  timerLabel->clear();
+  timerLabel->setText(QString("%1:%2:%3").arg(QString::number(hours))
+                                    .arg(QString::number(minutes))
+                                    .arg(QString::number(seconds)));
 }
 
 void Sudoku::selectGame() {
