@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Sudoku_t {
-    QByteArrayData data[12];
-    char stringdata0[123];
+    QByteArrayData data[14];
+    char stringdata0[149];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -36,17 +36,19 @@ QT_MOC_LITERAL(3, 23, 11), // "std::string"
 QT_MOC_LITERAL(4, 35, 10), // "puzzlePath"
 QT_MOC_LITERAL(5, 46, 11), // "puzzleSaved"
 QT_MOC_LITERAL(6, 58, 12), // "solveRequest"
-QT_MOC_LITERAL(7, 71, 11), // "timerUpdate"
-QT_MOC_LITERAL(8, 83, 10), // "selectGame"
-QT_MOC_LITERAL(9, 94, 8), // "saveGame"
-QT_MOC_LITERAL(10, 103, 9), // "solveGame"
-QT_MOC_LITERAL(11, 113, 9) // "closeGame"
+QT_MOC_LITERAL(7, 71, 13), // "openWinWindow"
+QT_MOC_LITERAL(8, 85, 11), // "timerUpdate"
+QT_MOC_LITERAL(9, 97, 10), // "selectGame"
+QT_MOC_LITERAL(10, 108, 8), // "saveGame"
+QT_MOC_LITERAL(11, 117, 9), // "solveGame"
+QT_MOC_LITERAL(12, 127, 11), // "restartGame"
+QT_MOC_LITERAL(13, 139, 9) // "closeGame"
 
     },
     "Sudoku\0puzzleSelected\0\0std::string\0"
     "puzzlePath\0puzzleSaved\0solveRequest\0"
-    "timerUpdate\0selectGame\0saveGame\0"
-    "solveGame\0closeGame"
+    "openWinWindow\0timerUpdate\0selectGame\0"
+    "saveGame\0solveGame\0restartGame\0closeGame"
 };
 #undef QT_MOC_LITERAL
 
@@ -56,7 +58,7 @@ static const uint qt_meta_data_Sudoku[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+      10,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -64,16 +66,18 @@ static const uint qt_meta_data_Sudoku[] = {
        3,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   54,    2, 0x06 /* Public */,
-       5,    1,   57,    2, 0x06 /* Public */,
-       6,    0,   60,    2, 0x06 /* Public */,
+       1,    1,   64,    2, 0x06 /* Public */,
+       5,    1,   67,    2, 0x06 /* Public */,
+       6,    0,   70,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       7,    0,   61,    2, 0x09 /* Protected */,
-       8,    0,   62,    2, 0x09 /* Protected */,
-       9,    0,   63,    2, 0x09 /* Protected */,
-      10,    0,   64,    2, 0x09 /* Protected */,
-      11,    0,   65,    2, 0x09 /* Protected */,
+       7,    0,   71,    2, 0x09 /* Protected */,
+       8,    0,   72,    2, 0x09 /* Protected */,
+       9,    0,   73,    2, 0x09 /* Protected */,
+      10,    0,   74,    2, 0x09 /* Protected */,
+      11,    0,   75,    2, 0x09 /* Protected */,
+      12,    0,   76,    2, 0x09 /* Protected */,
+      13,    0,   77,    2, 0x09 /* Protected */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
@@ -81,6 +85,8 @@ static const uint qt_meta_data_Sudoku[] = {
     QMetaType::Void,
 
  // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -99,11 +105,13 @@ void Sudoku::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 0: _t->puzzleSelected((*reinterpret_cast< std::string(*)>(_a[1]))); break;
         case 1: _t->puzzleSaved((*reinterpret_cast< std::string(*)>(_a[1]))); break;
         case 2: _t->solveRequest(); break;
-        case 3: _t->timerUpdate(); break;
-        case 4: _t->selectGame(); break;
-        case 5: _t->saveGame(); break;
-        case 6: _t->solveGame(); break;
-        case 7: _t->closeGame(); break;
+        case 3: _t->openWinWindow(); break;
+        case 4: _t->timerUpdate(); break;
+        case 5: _t->selectGame(); break;
+        case 6: _t->saveGame(); break;
+        case 7: _t->solveGame(); break;
+        case 8: _t->restartGame(); break;
+        case 9: _t->closeGame(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -155,13 +163,13 @@ int Sudoku::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 8)
+        if (_id < 10)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
+        _id -= 10;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 8)
+        if (_id < 10)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 8;
+        _id -= 10;
     }
     return _id;
 }

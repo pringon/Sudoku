@@ -1,5 +1,4 @@
 #include "Sudoku.h"
-#include "Board.h"
 #include <QCoreApplication>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -32,7 +31,7 @@ Sudoku::Sudoku(QWidget *parent)
   timerGroup->setLayout(timerBox);
 
   sudokuPuzzleGroup = new QGroupBox();
-  Board *sudokuGrid = new Board(this);
+  sudokuGrid = new Board(this);
   QSizePolicy sudokuPuzzleGroupHeight(QSizePolicy::Preferred, QSizePolicy::Preferred);
   sudokuPuzzleGroupHeight.setVerticalStretch(8);
   sudokuPuzzleGroup->setSizePolicy(sudokuPuzzleGroupHeight);
@@ -43,7 +42,7 @@ Sudoku::Sudoku(QWidget *parent)
   QObject::connect(this,       &Sudoku::solveRequest,
                    sudokuGrid, &Board::solvePuzzle);
   QObject::connect(sudokuGrid, &Board::sudokuSolved,
-                   this, &Sudoku::closeGame);
+                   this,       &Sudoku::openWinWindow);
   sudokuPuzzleGroup->setLayout(sudokuGrid);
 
   buttonsGroup = new QGroupBox();
@@ -71,6 +70,13 @@ Sudoku::Sudoku(QWidget *parent)
   windowLayout->addWidget(buttonsGroup);
 
   this->setLayout(windowLayout);
+}
+
+void Sudoku::openWinWindow() {
+
+  WinWindow popup_dialog(this, hours, minutes, seconds);
+  popup_dialog.setModal(true);
+  popup_dialog.exec();
 }
 
 void Sudoku::timerUpdate() {
@@ -109,6 +115,12 @@ void Sudoku::saveGame() {
 
 void Sudoku::solveGame() {
   emit solveRequest();
+}
+
+void Sudoku::restartGame() {
+  hours = 0;
+  minutes = 0;
+  seconds = 0;
 }
 
 void Sudoku::closeGame() {

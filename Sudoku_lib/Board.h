@@ -1,3 +1,5 @@
+class Board;
+
 #ifndef BOARD_H
 #define BOARD_H
 
@@ -21,6 +23,9 @@ private:
 
 public:
   Board(QWidget* parent = 0, std::string puzzlePath = "./saved_puzzles/test.txt");
+
+protected:
+  void reset_board();
 
 protected slots:
   virtual void openPuzzle(std::string puzzlePath);

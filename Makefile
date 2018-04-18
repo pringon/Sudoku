@@ -52,17 +52,21 @@ SOURCES       = test.cpp \
 		Sudoku_lib/Board.cpp \
 		Sudoku_lib/Cell.cpp \
 		Sudoku_lib/Group.cpp \
-		Sudoku_lib/Sudoku.cpp moc_Board.cpp \
+		Sudoku_lib/Sudoku.cpp \
+		Sudoku_lib/win_window.cpp moc_Board.cpp \
 		moc_Cell.cpp \
-		moc_Sudoku.cpp
+		moc_Sudoku.cpp \
+		moc_win_window.cpp
 OBJECTS       = test.o \
 		Board.o \
 		Cell.o \
 		Group.o \
 		Sudoku.o \
+		win_window.o \
 		moc_Board.o \
 		moc_Cell.o \
-		moc_Sudoku.o
+		moc_Sudoku.o \
+		moc_win_window.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -127,11 +131,13 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		test.pro Sudoku_lib/Board.h \
 		Sudoku_lib/Cell.h \
 		Sudoku_lib/Group.h \
-		Sudoku_lib/Sudoku.h test.cpp \
+		Sudoku_lib/Sudoku.h \
+		Sudoku_lib/win_window.h test.cpp \
 		Sudoku_lib/Board.cpp \
 		Sudoku_lib/Cell.cpp \
 		Sudoku_lib/Group.cpp \
-		Sudoku_lib/Sudoku.cpp
+		Sudoku_lib/Sudoku.cpp \
+		Sudoku_lib/win_window.cpp
 QMAKE_TARGET  = test
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = test
@@ -307,8 +313,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents Sudoku_lib/Board.h Sudoku_lib/Cell.h Sudoku_lib/Group.h Sudoku_lib/Sudoku.h $(DISTDIR)/
-	$(COPY_FILE) --parents test.cpp Sudoku_lib/Board.cpp Sudoku_lib/Cell.cpp Sudoku_lib/Group.cpp Sudoku_lib/Sudoku.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents Sudoku_lib/Board.h Sudoku_lib/Cell.h Sudoku_lib/Group.h Sudoku_lib/Sudoku.h Sudoku_lib/win_window.h $(DISTDIR)/
+	$(COPY_FILE) --parents test.cpp Sudoku_lib/Board.cpp Sudoku_lib/Cell.cpp Sudoku_lib/Group.cpp Sudoku_lib/Sudoku.cpp Sudoku_lib/win_window.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -331,20 +337,35 @@ check: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_Board.cpp moc_Cell.cpp moc_Sudoku.cpp
+compiler_moc_header_make_all: moc_Board.cpp moc_Cell.cpp moc_Sudoku.cpp moc_win_window.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_Board.cpp moc_Cell.cpp moc_Sudoku.cpp
+	-$(DEL_FILE) moc_Board.cpp moc_Cell.cpp moc_Sudoku.cpp moc_win_window.cpp
 moc_Board.cpp: Sudoku_lib/Group.h \
 		Sudoku_lib/Cell.h \
 		Sudoku_lib/Sudoku.h \
+		Sudoku_lib/win_window.h \
+		Sudoku_lib/Board.h \
 		Sudoku_lib/Board.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/media/pringon/Junk/GUIs/test -I/media/pringon/Junk/GUIs/test -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include Sudoku_lib/Board.h -o moc_Board.cpp
 
 moc_Cell.cpp: Sudoku_lib/Cell.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/media/pringon/Junk/GUIs/test -I/media/pringon/Junk/GUIs/test -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include Sudoku_lib/Cell.h -o moc_Cell.cpp
 
-moc_Sudoku.cpp: Sudoku_lib/Sudoku.h
+moc_Sudoku.cpp: Sudoku_lib/win_window.h \
+		Sudoku_lib/Sudoku.h \
+		Sudoku_lib/Board.h \
+		Sudoku_lib/Group.h \
+		Sudoku_lib/Cell.h \
+		Sudoku_lib/Sudoku.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/media/pringon/Junk/GUIs/test -I/media/pringon/Junk/GUIs/test -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include Sudoku_lib/Sudoku.h -o moc_Sudoku.cpp
+
+moc_win_window.cpp: Sudoku_lib/Sudoku.h \
+		Sudoku_lib/win_window.h \
+		Sudoku_lib/Board.h \
+		Sudoku_lib/Group.h \
+		Sudoku_lib/Cell.h \
+		Sudoku_lib/win_window.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/media/pringon/Junk/GUIs/test -I/media/pringon/Junk/GUIs/test -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include Sudoku_lib/win_window.h -o moc_win_window.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -360,13 +381,18 @@ compiler_clean: compiler_moc_header_clean
 
 ####### Compile
 
-test.o: test.cpp Sudoku_lib/Sudoku.h
+test.o: test.cpp Sudoku_lib/Sudoku.h \
+		Sudoku_lib/win_window.h \
+		Sudoku_lib/Board.h \
+		Sudoku_lib/Group.h \
+		Sudoku_lib/Cell.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o test.o test.cpp
 
 Board.o: Sudoku_lib/Board.cpp Sudoku_lib/Board.h \
 		Sudoku_lib/Group.h \
 		Sudoku_lib/Cell.h \
-		Sudoku_lib/Sudoku.h
+		Sudoku_lib/Sudoku.h \
+		Sudoku_lib/win_window.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Board.o Sudoku_lib/Board.cpp
 
 Cell.o: Sudoku_lib/Cell.cpp Sudoku_lib/Cell.h
@@ -377,10 +403,18 @@ Group.o: Sudoku_lib/Group.cpp Sudoku_lib/Group.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Group.o Sudoku_lib/Group.cpp
 
 Sudoku.o: Sudoku_lib/Sudoku.cpp Sudoku_lib/Sudoku.h \
+		Sudoku_lib/win_window.h \
 		Sudoku_lib/Board.h \
 		Sudoku_lib/Group.h \
 		Sudoku_lib/Cell.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Sudoku.o Sudoku_lib/Sudoku.cpp
+
+win_window.o: Sudoku_lib/win_window.cpp Sudoku_lib/win_window.h \
+		Sudoku_lib/Sudoku.h \
+		Sudoku_lib/Board.h \
+		Sudoku_lib/Group.h \
+		Sudoku_lib/Cell.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o win_window.o Sudoku_lib/win_window.cpp
 
 moc_Board.o: moc_Board.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Board.o moc_Board.cpp
@@ -390,6 +424,9 @@ moc_Cell.o: moc_Cell.cpp
 
 moc_Sudoku.o: moc_Sudoku.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Sudoku.o moc_Sudoku.cpp
+
+moc_win_window.o: moc_win_window.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_win_window.o moc_win_window.cpp
 
 ####### Install
 
